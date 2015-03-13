@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
 
-/**
+/*
  * @author Jonathan Doll
  */
 public class XMLCreator {
