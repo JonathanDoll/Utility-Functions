@@ -1,4 +1,4 @@
-package com.johndoll.utilityfunctions;
+package com.johndoll.utilityfunctions.excel;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

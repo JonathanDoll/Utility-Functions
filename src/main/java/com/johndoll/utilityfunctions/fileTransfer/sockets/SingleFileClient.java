@@ -1,4 +1,4 @@
-package com.johndoll.utilityfunctions;
+package com.johndoll.utilityfunctions.filetransfer.sockets;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
