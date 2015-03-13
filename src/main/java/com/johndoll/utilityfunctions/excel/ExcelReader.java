@@ -1,6 +1,6 @@
 package com.johndoll.utilityfunctions.excel;
 
-/*
+/**
  * @author Jonathan Doll
  */
 
