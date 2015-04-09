@@ -1,6 +1,7 @@
 package com.johndoll.utilityfunctions.filetransfer.rmi;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,7 +32,6 @@ public class RMIFileTransferClient extends javax.swing.JPanel {
     private DefaultListModel dlm;
     private RMIFileInt stub;
     private JFileChooser jfc;
-
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
@@ -120,11 +120,22 @@ public class RMIFileTransferClient extends javax.swing.JPanel {
             fileName = dlm.getElementAt(fileList.getSelectedIndex()).toString();
             stub.setFileDownload(fileName);
             jfc.showSaveDialog(this);
-            if(jfc.getSelectedFile() != null){
-            FileOutputStream fout = new FileOutputStream(jfc.getSelectedFile() + fileName.substring(fileName.lastIndexOf(".")));
-            byte[] data = stub.getFileStream();
-            fout.write(data);
-            fout.close();
+            if (jfc.getSelectedFile() != null) {
+                FileOutputStream fout = new FileOutputStream(jfc.getSelectedFile() + fileName.substring(fileName.lastIndexOf(".")));
+                BufferedOutputStream bfout = new BufferedOutputStream(fout);
+
+                boolean finished = false;
+                while (!finished) {
+
+                    byte[] data = stub.getFileStream();
+                    bfout.write(data);
+
+                    if (data.length < 100000000) {
+                        bfout.close();
+                        finished = true;
+                    }
+
+                }
             }
         } catch (Exception e) {
             System.err.println(e);
@@ -137,13 +148,18 @@ public class RMIFileTransferClient extends javax.swing.JPanel {
             stub.setFileUpload(jfc.getSelectedFile().getName());
             FileInputStream fin = new FileInputStream(jfc.getSelectedFile());
             BufferedInputStream bfin = new BufferedInputStream(fin);
-            ByteArrayOutputStream fout = new ByteArrayOutputStream();
-            int b;
-            while ((b = bfin.read()) != -1) {
-                fout.write(b);
-            }
-            byte[] data = fout.toByteArray();
-            stub.sendFileStream(data);
+            int b = 0;
+            do {
+                int j = 0;
+                ByteArrayOutputStream fout = new ByteArrayOutputStream();
+                while ((b = bfin.read()) != -1 && j < 100000000) {
+                    fout.write(b);
+                    j++;
+                }
+                byte[] data = fout.toByteArray();
+                stub.sendFileStream(data);
+            } while (b != -1);
+            bfin.close();
         } catch (RemoteException e) {
             System.err.println(e);
         } catch (FileNotFoundException e) {

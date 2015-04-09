@@ -82,19 +82,26 @@ public class RMIFileTransfer implements RMIFileInt, Serializable {
     }
 
     public byte[] getFileStream() throws RemoteException, IOException {
+        
+        int b = 0;
+        do{
+        int j = 0;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        int b;
-        while ((b = bfin.read()) != -1) {
+        while ((b = bfin.read()) != -1 && j < 100000000) {
             out.write(b);
+            j++;
         }
         byte[] data = out.toByteArray();
         return data;
+        }while(b != -1);
     }
 
     public void sendFileStream(byte[] data) throws RemoteException {
         try {
             bfout.write(data);
-            bfout.close();
+            if(data.length < 100000000){
+                bfout.close();
+            }
         } catch (IOException e) {
             System.err.println(e);
         }
