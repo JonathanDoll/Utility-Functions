@@ -70,8 +70,10 @@ public class RMIFileTransfer implements RMIFileInt, Serializable {
     public void setFileUpload(String fileName) throws RemoteException {
         int fileNum = 1;
         File file = new File(uploadFolder + "\\" + fileName);
+        String fileExt = fileName.substring(fileName.lastIndexOf("."));
+        fileName =  fileName.substring(0, fileName.lastIndexOf("."));
         while(file.exists()){
-            file = new File(uploadFolder + "\\(" + fileNum++ +  ")" + fileName);
+            file = new File(uploadFolder + "\\" + fileName + "(" + fileNum++ +  ")" + fileExt);
         }
         try {
             fout = new FileOutputStream(file);

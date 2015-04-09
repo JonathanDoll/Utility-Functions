@@ -3,6 +3,7 @@ package com.johndoll.utilityfunctions.filetransfer.rmi;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -121,7 +122,12 @@ public class RMIFileTransferClient extends javax.swing.JPanel {
             stub.setFileDownload(fileName);
             jfc.showSaveDialog(this);
             if (jfc.getSelectedFile() != null) {
-                FileOutputStream fout = new FileOutputStream(jfc.getSelectedFile() + fileName.substring(fileName.lastIndexOf(".")));
+                File file = new File(jfc.getSelectedFile() + fileName.substring(fileName.lastIndexOf(".")));
+                int fileNum = 1;
+                while(file.exists()){
+                    file = new File(jfc.getSelectedFile() + "(" + fileNum++ + ")" + fileName.substring(fileName.lastIndexOf(".")));
+                }
+                FileOutputStream fout = new FileOutputStream(file);
                 BufferedOutputStream bfout = new BufferedOutputStream(fout);
 
                 boolean finished = false;
