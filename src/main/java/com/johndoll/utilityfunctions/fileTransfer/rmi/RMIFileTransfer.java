@@ -89,7 +89,7 @@ public class RMIFileTransfer implements RMIFileInt, Serializable {
         do{
         int j = 0;
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        while ((b = bfin.read()) != -1 && j < 100000000) {
+        while (j < 100000000 && (b = bfin.read()) != -1) {
             out.write(b);
             j++;
         }

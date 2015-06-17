@@ -158,7 +158,7 @@ public class RMIFileTransferClient extends javax.swing.JPanel {
             do {
                 int j = 0;
                 ByteArrayOutputStream fout = new ByteArrayOutputStream();
-                while ((b = bfin.read()) != -1 && j < 100000000) {
+                while (j < 100000000 && (b = bfin.read()) != -1) {
                     fout.write(b);
                     j++;
                 }
