@@ -131,6 +131,22 @@ public class ExcelReader {
         return wsheet;
     }
     
+    public String[]columnToArray(int columnNum){
+        String[] column = new String[getRowCount()];
+        for(int i = 0; i < column.length; i++){
+            column[i] = getCellData(i, columnNum);
+        }
+        return column;
+    }
+    
+    public String[]columnToArray(int columnNum, int startingRow){
+        String[] column = new String[getRowCount()-startingRow];
+        for(int i = 0; i < column.length; i++){
+            column[i] = getCellData(startingRow + i, columnNum);
+        }
+        return column;
+    }
+    
     public String getCurrentSheet(){
         return workbook.getSheetName(workbook.getSheetIndex(worksheet));
     }

@@ -74,7 +74,49 @@ public class ExcelWriter {
             writeToCell(row, i, doubleArray[i]);
         }
     }
-
+    
+    public void arrayToColumn(int column, int startingRow, String[] array){
+        for(int i = 0; i < array.length; i++){
+            writeToCell(startingRow + i, column, array[i]);
+        }
+    }
+    
+    public void arrayToColumn(int column, int startingRow, int[] array){
+        for(int i = 0; i < array.length; i++){
+            writeToCell(startingRow + i, column, array[i]);
+        }
+    }
+    
+    public void arrayToColumn(int column, int startingRow, double[] array){
+        for(int i = 0; i < array.length; i++){
+            writeToCell(startingRow + i, column, array[i]);
+        }
+    }
+    
+    public void arrayToWorksheet(String[][] array){
+        for(int i = 0; i < array.length; i++){
+            for(int j = 0; j < array[0].length; j++){
+                writeToCell(i, j, array[i][j]);
+            }
+        }        
+    }
+    
+    public void arrayToWorksheet(int[][] array){
+        for(int i = 0; i < array.length; i++){
+            for(int j = 0; j < array[0].length; j++){
+                writeToCell(i, j, array[i][j]);
+            }
+        }        
+    }
+    
+    public void arrayToWorksheet(double[][] array){
+        for(int i = 0; i < array.length; i++){
+            for(int j = 0; j < array[0].length; j++){
+                writeToCell(i, j, array[i][j]);
+            }
+        }        
+    }
+    
     public void deleteRow(int rowNum) {
         worksheet.createRow(rowNum);
     }
